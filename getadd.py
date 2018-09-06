@@ -3,12 +3,10 @@ import requests
 import json
 
 serviceurl = 'http://maps.googleapis.com/maps/api/geocode/json'
-surl = 'maps.googleapis.com'
-purl = '/maps/api/geocode/json'
-the_url = surl + purl
 
 
-path = os.path.join(os.getcwd(), 'org.txt')
+
+path = os.path.join(os.getcwd(), 'org_null.csv')
 result = os.path.join(os.getcwd(), 'result')
 
 proxy_host = "proxy.crawlera.com"
@@ -34,6 +32,7 @@ for eachline in f.readlines():
         js = json.loads(data)
     except:
         js = None
+		
     if js is None:
         print('ERROR')
         f_res.write('\n')
@@ -48,7 +47,7 @@ for eachline in f.readlines():
     # print('lat:', lat, 'lng:', lng)
     location = js['results'][0]['formatted_address']
     # print(location)
-    res = str(lat) + ' | ' + str(lng) + ' | ' + location + '\n'
+    res =  '\" location \"' + str(lat) + ' | ' + str(lng) + ' | ' + '\n'
     print(res)
     f_res.write(res)
 f.close()
