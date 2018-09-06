@@ -57,7 +57,7 @@ for eachline in f.readlines():
     # print('lat:', lat, 'lng:', lng)
     location = js['results'][0]['formatted_address']
     # print(location)
-    res =  '\"' + location + '\"' + str(lat) + ' | ' + str(lng) + ' | ' + '\n'
+    res =  '\"' + location + '\" | ' + str(lat) + ' | ' + str(lng) + ' | ' + '\n'
     print(res)
     f_res.write(res)
 f.close()
