@@ -44,10 +44,10 @@ for eachline in f.readlines():
             print('===Failed To Retrieve===', 'retry = ', MAX_RETRY)
             js = None
 
-        if js is None:
-            print('ERROR')
-            f_res.write('\n')
-            continue
+    if js is None:
+        print('ERROR')
+        f_res.write('\n')
+        continue
 
     lat = js['results'][0]['geometry']['location']['lat']
     lng = js['results'][0]['geometry']['location']['lng']
