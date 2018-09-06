@@ -22,32 +22,32 @@ f_res = open(result, 'w', encoding='utf-8')
 
 
 for eachline in f.readlines():
-	js = None
-	MAX_RETRY = 0
-	
-	while js is None and MAX_RETRY < 3:
-		MAX_RETRY += 1
-		payloads = {
-			'sensor': 'false',
-			'address': eachline,
-		}
+    js = None
+    MAX_RETRY = 0
 
-		c = requests.get(serviceurl, proxies=proxies, params=payloads, verify=False)
-		data = c.text
+    while js is None and MAX_RETRY < 3:
+        MAX_RETRY += 1
+        payloads = {
+        'sensor': 'false',
+        'address': eachline,
+        }
 
-		try:
-			js = json.loads(data)
-		except:
-			continue
-			
-		if js is None or 'status' not in js or js['status'] != 'OK':
-			print('===Failed To Retrieve===', 'retry = ', MAX_RETRY)
-			js = None
-			
-	if js is None:
-	    print('ERROR')
-		f_res.write('\n')
-		continue
+        c = requests.get(serviceurl, proxies=proxies, params=payloads, verify=False)
+        data = c.text
+
+        try:
+            js = json.loads(data)
+        except:
+            continue
+
+        if js is None or 'status' not in js or js['status'] != 'OK':
+            print('===Failed To Retrieve===', 'retry = ', MAX_RETRY)
+            js = None
+
+        if js is None:
+            print('ERROR')
+            f_res.write('\n')
+            continue
 
     lat = js['results'][0]['geometry']['location']['lat']
     lng = js['results'][0]['geometry']['location']['lng']
