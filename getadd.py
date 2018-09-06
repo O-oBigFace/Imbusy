@@ -19,29 +19,36 @@ proxies = {"https": "https://{}@{}:{}/".format(proxy_auth, proxy_host, proxy_por
 f = open(path, 'r', encoding='utf-8')
 f_res = open(result, 'w', encoding='utf-8')
 
+
+
 for eachline in f.readlines():
-    payloads = {
-        'sensor': 'false',
-        'address': eachline,
-    }
+	js = None
+	MAX_RETRY = 0
+	
+	while js is None and MAX_RETRY < 3:
+		MAX_RETRY += 1
+		payloads = {
+			'sensor': 'false',
+			'address': eachline,
+		}
 
-    c = requests.get(serviceurl, proxies=proxies, params=payloads, verify=False)
-    data = c.text
+		c = requests.get(serviceurl, proxies=proxies, params=payloads, verify=False)
+		data = c.text
 
-    try:
-        js = json.loads(data)
-    except:
-        js = None
-		
-    if js is None:
-        print('ERROR')
-        f_res.write('\n')
-        continue
-    if 'status' not in js or js['status'] != 'OK':
-        print('===Failed To Retrieve===')
-		print(eachline)
-        f_res.write('\n')
-        continue
+		try:
+			js = json.loads(data)
+		except:
+			continue
+			
+		if js is None or 'status' not in js or js['status'] != 'OK':
+			print('===Failed To Retrieve===', 'retry = ', MAX_RETRY)
+			js = None
+			continue
+			
+	if js is None:
+	print('ERROR')
+	f_res.write('\n')
+	continue
 
     lat = js['results'][0]['geometry']['location']['lat']
     lng = js['results'][0]['geometry']['location']['lng']
