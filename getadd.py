@@ -43,12 +43,11 @@ for eachline in f.readlines():
 		if js is None or 'status' not in js or js['status'] != 'OK':
 			print('===Failed To Retrieve===', 'retry = ', MAX_RETRY)
 			js = None
-			continue
 			
 	if js is None:
-	print('ERROR')
-	f_res.write('\n')
-	continue
+	    print('ERROR')
+		f_res.write('\n')
+		continue
 
     lat = js['results'][0]['geometry']['location']['lat']
     lng = js['results'][0]['geometry']['location']['lng']
