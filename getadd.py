@@ -1,6 +1,7 @@
 import os
 import requests
 import json
+import time
 
 serviceurl = 'http://maps.googleapis.com/maps/api/geocode/json'
 
@@ -25,8 +26,10 @@ for eachline in f.readlines():
     js = None
     MAX_RETRY = 0
 
-    while js is None and MAX_RETRY < 3:
+    while js is None and MAX_RETRY < 5:
         MAX_RETRY += 1
+        if MAX_RETRY > 2:
+            time.sleep(5)
         payloads = {
         'sensor': 'false',
         'address': eachline,
