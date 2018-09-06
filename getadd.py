@@ -28,8 +28,8 @@ for eachline in f.readlines():
 
     while js is None and MAX_RETRY < 5:
         MAX_RETRY += 1
-        if MAX_RETRY > 2:
-            time.sleep(5)
+        if MAX_RETRY > 1:
+            time.sleep(MAX_RETRY)
         payloads = {
         'sensor': 'false',
         'address': eachline,
