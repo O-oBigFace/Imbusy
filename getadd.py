@@ -35,7 +35,11 @@ for eachline in f.readlines():
         'address': eachline,
         }
 
-        c = requests.get(serviceurl, proxies=proxies, params=payloads, verify=False)
+        if MAX_RETRY < 4:
+            c = requests.get(serviceurl, proxies=proxies, params=payloads, verify=False)
+        else:
+            c = requests.get(serviceurl, params=payloads)
+
         data = c.text
 
         try:
